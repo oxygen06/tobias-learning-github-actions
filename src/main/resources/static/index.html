@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 32px;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+            max-width: 960px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th {
+            background: #f9fafb;
+        }
+
+        tbody tr:hover {
+            background: #f9fbff;
+        }
+
+        .status {
+            margin-bottom: 16px;
+            color: #475569;
+        }
+
+        .error {
+            color: #b91c1c;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>Stock Tracker</h1>
+    <div id="status" class="status">正在加载股票数据...</div>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Company</th>
+            <th>Sector</th>
+            <th>Exchange</th>
+        </tr>
+        </thead>
+        <tbody id="stock-body"></tbody>
+    </table>
+</div>
+
+<script>
+    async function loadStocks() {
+        const status = document.getElementById('status');
+        const tbody = document.getElementById('stock-body');
+
+        try {
+            const response = await fetch('/api/stocks');
+            if (!response.ok) {
+                throw new Error(`请求失败，状态码：${response.status}`);
+            }
+
+            const stocks = await response.json();
+            tbody.innerHTML = '';
+
+            if (!stocks.length) {
+                status.textContent = '当前没有股票数据。';
+                return;
+            }
+
+            for (const stock of stocks) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${stock.symbol}</td>
+                    <td>${stock.companyName}</td>
+                    <td>${stock.sector}</td>
+                    <td>${stock.exchange}</td>
+                `;
+                tbody.appendChild(row);
+            }
+
+            status.textContent = `已加载 ${stocks.length} 条股票记录。`;
+        } catch (error) {
+            status.textContent = `加载失败：${error.message}`;
+            status.classList.add('error');
+        }
+    }
+
+    loadStocks();
+</script>
+</body>
+</html>
+

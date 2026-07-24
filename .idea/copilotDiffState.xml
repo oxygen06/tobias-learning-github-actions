@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/Dockerfile">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/Dockerfile" />
+              <option name="updatedContent" value="# Stage 1: build the JAR&#10;FROM maven:3.9-eclipse-temurin-21 AS build&#10;&#10;WORKDIR /app&#10;&#10;COPY pom.xml .&#10;&#10;RUN mvn dependency:go-offline -q&#10;&#10;COPY src ./src&#10;&#10;RUN mvn package -DskipTests -q&#10;&#10;# Stage 2: run the JAR in a minimal image&#10;FROM eclipse-temurin:21-jre-alpine&#10;&#10;WORKDIR /app&#10;&#10;COPY --from=build /app/target/*.jar app.jar&#10;&#10;EXPOSE 8080&#10;&#10;ENTRYPOINT [&quot;java&quot;, &quot;-jar&quot;, &quot;app.jar&quot;]&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/static/index.html">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/main/resources/static/index.html" />
+              <option name="updatedContent" value="&lt;!DOCTYPE html&gt;&#10;&lt;html lang=&quot;zh-CN&quot;&gt;&#10;&lt;head&gt;&#10;    &lt;meta charset=&quot;UTF-8&quot;&gt;&#10;    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;&#10;    &lt;title&gt;Stock Tracker&lt;/title&gt;&#10;    &lt;style&gt;&#10;        body {&#10;            font-family: Arial, sans-serif;&#10;            margin: 0;&#10;            padding: 32px;&#10;            background: #f5f7fb;&#10;            color: #1f2937;&#10;        }&#10;&#10;        h1 {&#10;            margin-bottom: 20px;&#10;        }&#10;&#10;        .card {&#10;            background: #ffffff;&#10;            border-radius: 12px;&#10;            padding: 24px;&#10;            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);&#10;            max-width: 960px;&#10;        }&#10;&#10;        table {&#10;            width: 100%;&#10;            border-collapse: collapse;&#10;        }&#10;&#10;        th, td {&#10;            padding: 12px 14px;&#10;            border-bottom: 1px solid #e5e7eb;&#10;            text-align: left;&#10;        }&#10;&#10;        th {&#10;            background: #f9fafb;&#10;        }&#10;&#10;        tbody tr:hover {&#10;            background: #f9fbff;&#10;        }&#10;&#10;        .status {&#10;            margin-bottom: 16px;&#10;            color: #475569;&#10;        }&#10;&#10;        .error {&#10;            color: #b91c1c;&#10;        }&#10;    &lt;/style&gt;&#10;&lt;/head&gt;&#10;&lt;body&gt;&#10;&lt;div class=&quot;card&quot;&gt;&#10;    &lt;h1&gt;Stock Tracker&lt;/h1&gt;&#10;    &lt;div id=&quot;status&quot; class=&quot;status&quot;&gt;正在加载股票数据...&lt;/div&gt;&#10;    &lt;table&gt;&#10;        &lt;thead&gt;&#10;        &lt;tr&gt;&#10;            &lt;th&gt;Symbol&lt;/th&gt;&#10;            &lt;th&gt;Company&lt;/th&gt;&#10;            &lt;th&gt;Sector&lt;/th&gt;&#10;            &lt;th&gt;Exchange&lt;/th&gt;&#10;        &lt;/tr&gt;&#10;        &lt;/thead&gt;&#10;        &lt;tbody id=&quot;stock-body&quot;&gt;&lt;/tbody&gt;&#10;    &lt;/table&gt;&#10;&lt;/div&gt;&#10;&#10;&lt;script&gt;&#10;    async function loadStocks() {&#10;        const status = document.getElementById('status');&#10;        const tbody = document.getElementById('stock-body');&#10;&#10;        try {&#10;            const response = await fetch('/api/stocks');&#10;            if (!response.ok) {&#10;                throw new Error(`请求失败，状态码：${response.status}`);&#10;            }&#10;&#10;            const stocks = await response.json();&#10;            tbody.innerHTML = '';&#10;&#10;            if (!stocks.length) {&#10;                status.textContent = '当前没有股票数据。';&#10;                return;&#10;            }&#10;&#10;            for (const stock of stocks) {&#10;                const row = document.createElement('tr');&#10;                row.innerHTML = `&#10;                    &lt;td&gt;${stock.symbol}&lt;/td&gt;&#10;                    &lt;td&gt;${stock.companyName}&lt;/td&gt;&#10;                    &lt;td&gt;${stock.sector}&lt;/td&gt;&#10;                    &lt;td&gt;${stock.exchange}&lt;/td&gt;&#10;                `;&#10;                tbody.appendChild(row);&#10;            }&#10;&#10;            status.textContent = `已加载 ${stocks.length} 条股票记录。`;&#10;        } catch (error) {&#10;            status.textContent = `加载失败：${error.message}`;&#10;            status.classList.add('error');&#10;        }&#10;    }&#10;&#10;    loadStocks();&#10;&lt;/script&gt;&#10;&lt;/body&gt;&#10;&lt;/html&gt;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
