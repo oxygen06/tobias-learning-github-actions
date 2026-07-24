@@ -1,4 +1,4 @@
-# Module 08 Lab — Introduction to Docker
+[![CI](https://github.com/oxygen06/tobias-learning-github-actions/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/oxygen06/tobias-learning-github-actions/actions/workflows/ci.yml)# Module 08 Lab — Introduction to Docker
 
 ## Objective
 Run a MySQL database as a Docker container, then write a `Dockerfile` for the Stock Tracker
